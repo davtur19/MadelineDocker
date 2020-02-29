@@ -6,7 +6,7 @@ https://hub.docker.com/r/davtur19/madeline
 ```bash
 git clone https://github.com/davtur19/MadelineDocker
 cd MadelineDocker
-docker run --name madeline -v "$(pwd)":/app/src/madeline -d madeline:latest
+docker run -v "$(pwd)":/app/src/madeline -d madeline:latest
 ```
 
 ## Build
