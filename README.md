@@ -1,7 +1,6 @@
 # MadelineDocker
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/davtur19/madeline)
-![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/davtur19/madeline/latest)
+![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)
 
 ## Setup
 - Install docker
@@ -11,7 +10,7 @@
 ```bash
 git clone https://github.com/davtur19/MadelineDocker
 cd MadelineDocker/madeline
-docker run -v "$(pwd)":/app/src/madeline -d madeline:latest
+docker run -v "$(pwd)":/app/src/madeline -d davtur19/madeline:latest
 ```
 
 ## Build
