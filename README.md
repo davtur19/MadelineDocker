@@ -1,7 +1,7 @@
 # MadelineDocker
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/davtur19/madeline)
 ![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)
-![MicroBadger Size (tag)](https://img.shields.io/microbadger/image-size/davtur19/madeline/latest)
+![Docker Image Size (tag)](https://img.shields.io/docker/image-size/davtur19/madeline/latest)
 
 ## Setup
 - Install docker
