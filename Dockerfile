@@ -26,6 +26,7 @@ RUN cd /app/lib/madeline &&\
 
 RUN apk del gcc g++ autoconf automake libtool libzip-dev curl-dev oniguruma-dev &&\
     rm -rf /var/cache/apk/* \
+    /tmp/* \
     /app/lib/madeline/PHP-CPP \
     /app/lib/madeline/PrimeModule-ext \
     /app/lib/madeline/php-libtgvoip
