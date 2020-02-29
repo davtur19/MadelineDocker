@@ -1,5 +1,4 @@
 # MadelineDocker
-![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/davtur19/madeline)
 ![Docker Image Size (tag)](https://img.shields.io/docker/image-size/davtur19/madeline/latest)
 ![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)
 
