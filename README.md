@@ -2,12 +2,16 @@
 
 https://hub.docker.com/r/davtur19/madeline
 
-##run
+## Run
 ```bash
+git clone https://github.com/davtur19/MadelineDocker
+cd MadelineDocker
 docker run --name madeline -v "$(pwd)":/app/src/madeline -d madeline:latest
 ```
 
-##build
+## Build
 ```bash
-docker image build -t madeline:1.0 .
+git clone https://github.com/davtur19/MadelineDocker
+cd MadelineDocker
+docker image build -t madeline:latest .
 ```
