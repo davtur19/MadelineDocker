@@ -5,12 +5,12 @@
 
 ## Setup
 - Install docker
-- Set all Define in main.php
+- Set all define in main.php
 
 ## Run
 ```bash
 git clone https://github.com/davtur19/MadelineDocker
-cd MadelineDocker
+cd MadelineDocker/madeline
 docker run -v "$(pwd)":/app/src/madeline -d madeline:latest
 ```
 

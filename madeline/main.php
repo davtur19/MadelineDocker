@@ -1,5 +1,5 @@
 <?php
-require_once '/app/lib/MadelineProto/vendor/autoload.php';
+require_once '/app/lib/madeline/vendor/autoload.php';
 require_once 'debugBot.php';
 
 define('SESSION_NAME', 'user');
