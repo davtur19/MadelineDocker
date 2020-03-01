@@ -1,67 +1,41 @@
 <?php
+
+use danog\MadelineProto\API;
+use danog\MadelineProto\EventHandler;
+use danog\MadelineProto\Exception;
+use danog\MadelineProto\Logger;
+use danog\MadelineProto\RPCErrorException;
+
 require_once '/app/lib/madeline/vendor/autoload.php';
-require_once 'debugBot.php';
-
-define('SESSION_NAME', 'user');
-// userid
-define('ADMINS', [1234, 5678]);
-// https://core.telegram.org/api/obtaining_api_id
-define('API_ID', 6);
-define('API_HASH', 'eb06d4abfb49dc3eeb1aeb98ae0f581e');
-
-// debugbot bot api token
-define('DEBUG_TOKEN', '12345:AAbcdef12345');
-// debugbot userid
-define('DEBUG_ID', 1234);
 
 
-/** @noinspection PhpUndefinedClassInspection */
-class EventHandler extends \danog\MadelineProto\EventHandler
+class MyEventHandler extends EventHandler
 {
-    private function getIdCustom($peer)
-    {
-        if (isset($peer['chat_id'])) {
-            return -$peer['chat_id'];
-        }
-        if (isset($peer['user_id'])) {
-            return $peer['user_id'];
-        }
-        if (isset($peer['channel_id'])) {
-            /** @noinspection PhpUndefinedMethodInspection */
-            return $this->to_supergroup($peer['channel_id']);
-        }
+    const SESSION_NAME = 'session';
+    // userid
+    private const ADMIN = [1234];
+    // replace them with yours https://core.telegram.org/api/obtaining_api_id
+    const API_ID = 123;
+    const API_HASH = 'abcdefg12345';
 
-        return false;
+    public function getReportPeers()
+    {
+        return self::ADMIN;
     }
 
-    public function __construct($MadelineProto)
+    public function onUpdateNewChannelMessage(array $update): \Generator
     {
-        parent::__construct($MadelineProto);
+        return $this->onUpdateNewMessage($update);
     }
 
-    public function onAny($update)
+    public function onUpdateNewMessage(array $update): \Generator
     {
-        //\danog\MadelineProto\Logger::log("Received an update of type " . $update['_']);
-    }
-
-    public function onLoop()
-    {
-        //\danog\MadelineProto\Logger::log("Working...");
-    }
-
-    public function onUpdateNewChannelMessage($update)
-    {
-        $this->onUpdateNewMessage($update);
-    }
-
-    public function onUpdateNewMessage($update)
-    {
-        /*if (isset($update['message']['out']) && $update['message']['out']) {
+        /*if ($update['message']['_'] === 'messageEmpty' || $update['message']['out'] ?? false) {
             return;
         }*/
 
-        if ((!isset($update['message']['from_id'])) or (!in_array($update['message']['from_id'], ADMINS))) {
-            return;
+        if ((!isset($update['message']['from_id'])) or (!in_array($update['message']['from_id'], self::ADMIN))) {
+            return; yield;
         }
 
         try {
@@ -84,9 +58,9 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                 if (!isset($update['message']['reply_to_msg_id'])) {
                     $this->messages->sendMessage(['peer' => $update, 'message' => 'No reply.']);
                 } else {
-                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage') and isset($update['message']['to_id'])) {
-                        $dump = $this->channels->getMessages([
-                                'channel' => $this->getIdCustom($update['message']['to_id']),
+                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage')) {
+                        $dump = yield $this->channels->getMessages([
+                                'channel' => $update,
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -95,7 +69,7 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                                 ],
                         ]);
                     } else {
-                        $dump = $this->messages->getMessages([
+                        $dump = yield $this->messages->getMessages([
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -135,9 +109,9 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                 if (!isset($update['message']['reply_to_msg_id'])) {
                     $this->messages->sendMessage(['peer' => $update, 'message' => 'No reply.']);
                 } else {
-                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage') and isset($update['message']['to_id'])) {
-                        $dump = $this->channels->getMessages([
-                                'channel' => $this->getIdCustom($update['message']['to_id']),
+                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage')) {
+                        $dump = yield $this->channels->getMessages([
+                                'channel' => $update,
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -146,7 +120,7 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                                 ],
                         ]);
                     } else {
-                        $dump = $this->messages->getMessages([
+                        $dump = yield $this->messages->getMessages([
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -194,7 +168,7 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                     $ex[2] = '';
                 }
                 if (isset($ex[1])) {
-                    $messages_BotResults = $this->messages->getInlineBotResults([
+                    $messages_BotResults = yield $this->messages->getInlineBotResults([
                             'bot' => $ex[1],
                             'peer' => $this->get_self()['id'],
                             'query' => $ex[2],
@@ -228,7 +202,7 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                     $ex[2] = '';
                 }
                 if (isset($ex[1])) {
-                    $messages_BotResults = $this->messages->getInlineBotResults([
+                    $messages_BotResults = yield $this->messages->getInlineBotResults([
                             'bot' => $ex[1],
                             'peer' => $this->get_self()['id'],
                             'query' => $ex[2],
@@ -257,9 +231,9 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                 if (!isset($update['message']['reply_to_msg_id'])) {
                     $this->messages->sendMessage(['peer' => $update, 'message' => 'No reply.']);
                 } else {
-                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage') and isset($update['message']['to_id'])) {
-                        $dump = $this->channels->getMessages([
-                                'channel' => $this->getIdCustom($update['message']['to_id']),
+                    if (isset($update['_']) and ($update['_'] === 'updateNewChannelMessage')) {
+                        $dump = yield $this->channels->getMessages([
+                                'channel' => $$update,
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -268,7 +242,7 @@ class EventHandler extends \danog\MadelineProto\EventHandler
                                 ],
                         ]);
                     } else {
-                        $dump = $this->messages->getMessages([
+                        $dump = yield $this->messages->getMessages([
                                 'id' => [
                                         [
                                                 '_' => 'inputMessageID',
@@ -300,24 +274,27 @@ class EventHandler extends \danog\MadelineProto\EventHandler
             }
 
         } catch (Exception $e) {
-            debug($e->getCode() . ': ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString());
+            $this->report($e);
         }
 
 
     }
 }
 
+$settings = [
+    'app_info' => [
+        'api_id' => MyEventHandler::API_ID,
+        'api_hash' => MyEventHandler::API_HASH
+    ],
+    'logger' => [
+        'logger_level' => Logger::NOTICE,
+        'logger' => Logger::FILE_LOGGER
+    ],
+    'serialization' => [
+        'serialization_interval' => 30,
+    ],
+];
 
-$settings['app_info']['api_id'] = API_ID;
-$settings['app_info']['api_hash'] = API_HASH;
-$settings['logger']['logger_level'] = \danog\MadelineProto\Logger::NOTICE;
-$settings['logger']['logger'] = \danog\MadelineProto\Logger::FILE_LOGGER;
+$MadelineProto = new \danog\MadelineProto\API(MyEventHandler::SESSION_NAME . '.madeline', $settings);
 
-$m = new \danog\MadelineProto\API(SESSION_NAME . '.madeline', $settings);
-
-/** @noinspection PhpUndefinedMethodInspection */
-$m->start();
-/** @noinspection PhpUndefinedMethodInspection */
-$m->setEventHandler('\EventHandler');
-/** @noinspection PhpUndefinedMethodInspection */
-$m->loop();
+$MadelineProto->startAndLoop(MyEventHandler::class);

@@ -37,4 +37,4 @@ WORKDIR /app/src/madeline/
 
 VOLUME /app/src/madeline/
 
-ENTRYPOINT ["php", "main.php"]
+ENTRYPOINT ["bash", "-c","php main.php"]

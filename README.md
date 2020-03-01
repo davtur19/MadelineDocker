@@ -4,7 +4,7 @@
 
 ## Setup
 - Install docker
-- Set all define in main.php
+- Set all const in main.php
 
 ## Run
 ```bash
