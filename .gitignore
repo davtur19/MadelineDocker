@@ -1,3 +1,4 @@
 *.madeline
 *.madeline.lock
 *.log
+.idea
