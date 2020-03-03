@@ -3,3 +3,4 @@
 *.log
 .idea
 app
+env.list

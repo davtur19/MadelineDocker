@@ -1,4 +1,8 @@
 <?php
+define('ADMIN', explode(',', getenv('ADMIN')));
+define('SESSION_NAME', getenv('SESSION_NAME'));
+define('API_ID', getenv('API_ID'));
+define('API_HASH', getenv('API_HASH'));
 
 use danog\MadelineProto\API;
 use danog\MadelineProto\EventHandler;
@@ -10,16 +14,10 @@ require_once '/app/lib/madeline/vendor/autoload.php';
 
 class MyEventHandler extends EventHandler
 {
-    const SESSION_NAME = 'session';
-    // user id
-    private const ADMIN = [1234];
-    // replace them with yours https://core.telegram.org/api/obtaining_api_id
-    const API_ID = 123;
-    const API_HASH = 'abcdefg12345';
 
     public function getReportPeers()
     {
-        return self::ADMIN;
+        return ADMIN;
     }
 
     public function onUpdateNewChannelMessage(array $update): \Generator
@@ -33,7 +31,7 @@ class MyEventHandler extends EventHandler
             return;
         }*/
 
-        if ((!isset($update['message']['from_id'])) or (!in_array($update['message']['from_id'], self::ADMIN))) {
+        if ((!isset($update['message']['from_id'])) or (!in_array($update['message']['from_id'], ADMIN))) {
             return;
         }
 
@@ -274,8 +272,8 @@ class MyEventHandler extends EventHandler
 
 $settings = [
         'app_info' => [
-                'api_id' => MyEventHandler::API_ID,
-                'api_hash' => MyEventHandler::API_HASH
+                'api_id' => API_ID,
+                'api_hash' => API_HASH
         ],
         'logger' => [
                 'logger_level' => Logger::VERBOSE,
@@ -286,6 +284,6 @@ $settings = [
         ],
 ];
 
-$MadelineProto = new \danog\MadelineProto\API(MyEventHandler::SESSION_NAME . '.madeline', $settings);
+$MadelineProto = new \danog\MadelineProto\API(SESSION_NAME . '.madeline', $settings);
 
 $MadelineProto->startAndLoop(MyEventHandler::class);
