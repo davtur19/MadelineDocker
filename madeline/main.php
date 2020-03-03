@@ -11,7 +11,7 @@ require_once '/app/lib/madeline/vendor/autoload.php';
 class MyEventHandler extends EventHandler
 {
     const SESSION_NAME = 'session';
-    // userid
+    // user id
     private const ADMIN = [1234];
     // replace them with yours https://core.telegram.org/api/obtaining_api_id
     const API_ID = 123;
@@ -266,10 +266,8 @@ class MyEventHandler extends EventHandler
                         'message' => $res,
                         'reply_to_msg_id' => $update['message']['id']
                 ]);
-
             }
         }
-
 
     }
 }
@@ -280,7 +278,7 @@ $settings = [
                 'api_hash' => MyEventHandler::API_HASH
         ],
         'logger' => [
-                'logger_level' => Logger::NOTICE,
+                'logger_level' => Logger::VERBOSE,
                 'logger' => Logger::FILE_LOGGER
         ],
         'serialization' => [
