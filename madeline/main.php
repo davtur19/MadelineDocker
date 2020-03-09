@@ -165,7 +165,7 @@ class MyEventHandler extends EventHandler
             if (isset($ex[1])) {
                 $messages_BotResults = yield $this->messages->getInlineBotResults([
                         'bot' => $ex[1],
-                        'peer' => $this->get_self()['id'],
+                        'peer' => '@me',
                         'query' => $ex[2],
                         'offset' => '',
                 ]);
@@ -199,7 +199,7 @@ class MyEventHandler extends EventHandler
             if (isset($ex[1])) {
                 $messages_BotResults = yield $this->messages->getInlineBotResults([
                         'bot' => $ex[1],
-                        'peer' => $this->get_self()['id'],
+                        'peer' => '@me',
                         'query' => $ex[2],
                         'offset' => '',
                 ]);
