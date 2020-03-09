@@ -59,4 +59,4 @@ WORKDIR /app/src/madeline/
 
 VOLUME /app/src/madeline/
 
-ENTRYPOINT ["bash", "-c","LD_PRELOAD=/usr/lib/libmimalloc.so php main.php"]
+ENTRYPOINT ["bash", "-c", "LD_PRELOAD=/usr/lib/libmimalloc.so php main.php"]
