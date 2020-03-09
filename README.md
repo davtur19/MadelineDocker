@@ -1,6 +1,6 @@
 # MadelineDocker
-![Docker Image Size (tag)](https://img.shields.io/docker/image-size/davtur19/madeline/latest)
-![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)
+[![Docker Image Size (tag)](https://img.shields.io/docker/image-size/davtur19/madeline/latest)](https://hub.docker.com/repository/docker/davtur19/madeline)
+[![Docker Pulls](https://img.shields.io/docker/pulls/davtur19/madeline)](https://hub.docker.com/repository/docker/davtur19/madeline)
 
 ## Setup
 - Install docker
