@@ -10,7 +10,7 @@
 ```bash
 git clone https://github.com/davtur19/MadelineDocker
 cd MadelineDocker/madeline
-docker run --env-file ./env.list -v "$(pwd)":/app/src/madeline -it davtur19/madeline:latest
+docker run --env-file ./env.list -v "$(pwd):/app/src/madeline" -it davtur19/madeline:latest
 ```
 
 ## Build
