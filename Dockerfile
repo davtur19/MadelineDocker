@@ -53,7 +53,7 @@ RUN apk del gcc g++ autoconf automake libtool cmake libzip-dev curl-dev onigurum
     /app/lib/madeline/mimalloc
 
 RUN cd /app/lib/madeline/ &&\
-    composer require danog/madelineproto
+    composer require danog/madelineproto dev-master
 
 WORKDIR /app/src/madeline/
 
