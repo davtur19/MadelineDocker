@@ -3,7 +3,7 @@ FROM composer:latest AS build
 WORKDIR /app/lib/madeline/
 
 RUN apk add --update g++ autoconf automake libtool libzip-dev curl-dev gmp-dev oniguruma-dev opus-dev libevent-dev cmake linux-headers nghttp2-libs libffi-dev libsodium-dev icu-dev &&\
-    docker-php-ext-install -j$(nproc) curl gmp mbstring json ffi sodium intl sockets
+    docker-php-ext-install -j$(nproc) curl gmp mbstring json ffi sodium intl sockets pdo pdo_mysql
 
 RUN cd /app/lib/madeline &&\
     wget https://pecl.php.net/get/event-2.5.4.tgz &&\
