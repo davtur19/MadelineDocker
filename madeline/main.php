@@ -49,6 +49,14 @@ class MyEventHandler extends EventHandler
             ]);
         }
 
+        if (isset($update['message']['message']) and $update['message']['message'] === '*stop') {
+            yield $this->messages->sendMessage([
+                'peer' => $update,
+                'message' => 'Stop',
+            ]);
+            $this->stop();
+        }
+
         if (isset($update['message']['message']) and isset($update['message']['id']) and $update['message']['message'] === '*info') {
             if (!isset($update['message']['reply_to_msg_id'])) {
                 $this->messages->sendMessage(['peer' => $update, 'message' => 'No reply.']);
