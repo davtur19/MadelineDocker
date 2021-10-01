@@ -16,13 +16,6 @@ RUN cd /app/lib/madeline &&\
     echo "extension=event.so" |tee /usr/local/etc/php/conf.d/event.ini
 
 RUN cd /app/lib/madeline &&\
-    git clone --depth=1 --recursive http://github.com/danog/php-libtgvoip &&\
-    cd php-libtgvoip &&\
-    sed 's/sudo //g' -i Makefile &&\
-    make TGVOIP_LOG_VERBOSITY=0 &&\
-    make install
-
-RUN cd /app/lib/madeline &&\
     git clone --depth=1 https://github.com/microsoft/mimalloc &&\
     cd mimalloc &&\
     mkdir release &&\
@@ -33,7 +26,6 @@ RUN cd /app/lib/madeline &&\
     
 RUN apk del gcc g++ autoconf automake libtool cmake libzip-dev curl-dev oniguruma-dev linux-headers &&\
     rm -rf /var/cache/apk/* \
-    /app/lib/madeline/php-libtgvoip \
     /app/lib/madeline/event-3.0.6.tgz \
     /app/lib/madeline/event-3.0.6 \
     /app/lib/madeline/mimalloc
